@@ -29,6 +29,10 @@ class _AlbumGridState extends State<AlbumGrid> {
     }
   }
 
+  void handleLongPressGrid() {
+    print('long press ${widget.file.title}');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -37,54 +41,57 @@ class _AlbumGridState extends State<AlbumGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: (Get.width - defaultPadding * 6) / 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-              height: (Get.width - defaultPadding * 7) / 2,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(defaultBorderRadius),
-              ),
-              child: Builder(builder: (context) {
-                if (widget.file.type == FileSystemEntityType.directory) {
-                  return Container(
-                    color: Colors.grey[300],
-                    child: const Center(
-                      child: Icon(
-                        CupertinoIcons.folder_fill,
-                        size: 60,
-                      ),
-                    ),
-                  );
-                }
-                return const Image(
-                  image: AssetImage(
-                    'assets/testImages/test-image-1.jpeg',
-                  ),
-                  fit: BoxFit.cover,
-                );
-              })),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding / 4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.file.title,
-                  style: context.textTheme.bodyText1,
+    return GestureDetector(
+      onLongPress: handleLongPressGrid,
+      child: SizedBox(
+        width: (Get.width - defaultPadding * 6) / 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                height: (Get.width - defaultPadding * 7) / 2,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultBorderRadius),
                 ),
-                if (widget.file.type == FileSystemEntityType.directory)
+                child: Builder(builder: (context) {
+                  if (widget.file.type == FileSystemEntityType.directory) {
+                    return Container(
+                      color: Colors.grey[300],
+                      child: const Center(
+                        child: Icon(
+                          CupertinoIcons.folder_fill,
+                          size: 60,
+                        ),
+                      ),
+                    );
+                  }
+                  return const Image(
+                    image: AssetImage(
+                      'assets/testImages/test-image-1.jpeg',
+                    ),
+                    fit: BoxFit.cover,
+                  );
+                })),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    totals.toString(),
-                    style: context.textTheme.bodyText2,
+                    widget.file.title,
+                    style: context.textTheme.bodyText1,
                   ),
-              ],
-            ),
-          )
-        ],
+                  if (widget.file.type == FileSystemEntityType.directory)
+                    Text(
+                      totals.toString(),
+                      style: context.textTheme.bodyText2,
+                    ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
