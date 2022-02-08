@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:secure_album/components/album_grid.dart';
 import 'package:secure_album/constants.dart';
+import 'package:secure_album/enums.dart';
 
 class AlbumPage extends StatefulWidget {
   AlbumPage({Key? key}) : super(key: key);
@@ -13,9 +14,73 @@ class AlbumPage extends StatefulWidget {
 }
 
 class _AlbumPageState extends State<AlbumPage> {
+  void addNewAlbum() {
+    print('new album');
+    Get.back();
+  }
+
+  void addImportFromPhotos() {
+    print('import from photos');
+  }
+
+  void addImportFromFiles() {
+    print('import from Files');
+  }
+
+  void showAddActionSheet() {
+    List<CupertinoActionSheetAction> getAlbumAddAction() {
+      List<CupertinoActionSheetAction> list = [];
+
+      Map<AlbumAddActionType, void Function()> actionMap = {
+        AlbumAddActionType.newAlbum: addNewAlbum,
+        AlbumAddActionType.importFromPhotos: addImportFromPhotos,
+        AlbumAddActionType.importFromFiles: addImportFromFiles
+      };
+
+      for (var value in AlbumAddActionType.values) {
+        list.add(
+          CupertinoActionSheetAction(
+            onPressed: actionMap[value] ?? () {},
+            child: Text(
+              value.toString().tr,
+            ),
+          ),
+        );
+      }
+
+      return list;
+    }
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CupertinoActionSheet(
+          actions: getAlbumAddAction(),
+          cancelButton: CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('cancel'),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: AppBar().preferredSize.height,
+        ),
+        child: FloatingActionButton(
+          elevation: 0,
+          child: const Icon(CupertinoIcons.add),
+          onPressed: showAddActionSheet,
+        ),
+      ),
       body: NestedScrollView(
         // floatHeaderSlivers: true,
         controller: PrimaryScrollController.of(context),
@@ -25,11 +90,6 @@ class _AlbumPageState extends State<AlbumPage> {
               backgroundColor: Colors.white,
               largeTitle: Text('AlbumTitle'.tr),
               stretch: true,
-              leading: const Icon(
-                CupertinoIcons.add,
-                color: CupertinoColors.activeBlue,
-                size: 24,
-              ),
             ),
           ];
         },

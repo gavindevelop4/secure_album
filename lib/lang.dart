@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:secure_album/lang/en_US.dart';
-import 'package:secure_album/lang/zh_TW.dart';
+import 'package:secure_album/lang/en_us.dart';
+import 'package:secure_album/lang/zh_tw.dart';
 
 class Messages extends Translations {
   @override
