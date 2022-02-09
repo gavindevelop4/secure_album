@@ -53,7 +53,11 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen>
                   ),
                   delegate: SliverChildListDelegate(
                     list.map((file) {
-                      return AlbumGrid(file: file);
+                      return AlbumGrid(
+                        file: file,
+                        getListCallback: getFileList,
+                        parentMode: mode,
+                      );
                     }).toList(),
                   ),
                 ),

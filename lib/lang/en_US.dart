@@ -5,6 +5,8 @@ Map<String, String> enUS = {
   'Confirm': 'Confirm',
   'Cancel': 'Cancel',
   'TitleText': 'Title',
+  'Delete': 'Delete',
+  'Edit': 'Edit',
 
   // Album Page
   'AlbumTitle': 'Album',

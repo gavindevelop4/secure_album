@@ -4,6 +4,11 @@ enum Role {
   fake,
 }
 
+enum AlbumMode {
+  view,
+  edit,
+}
+
 enum AlbumAddActionType {
   newAlbum,
   importFromPhotos,

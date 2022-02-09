@@ -5,6 +5,8 @@ Map<String, String> zhTW = {
   'Confirm': '確定',
   'Cancel': '取消',
   'TitleText': '名稱',
+  'Delete': '刪除',
+  'Edit': '編輯',
 
   // Album Page
   'AlbumTitle': '相薄',

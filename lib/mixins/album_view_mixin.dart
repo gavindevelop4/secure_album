@@ -13,15 +13,20 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   List<FileSystemItem> list = [];
   late String path;
 
+  AlbumMode mode = AlbumMode.view;
+
   Widget getFloatingActionButton() {
     return Padding(
       padding: EdgeInsets.only(
         bottom: AppBar().preferredSize.height,
       ),
-      child: FloatingActionButton(
-        elevation: 0,
-        child: const Icon(CupertinoIcons.add),
-        onPressed: showAddActionSheet,
+      child: Visibility(
+        visible: mode == AlbumMode.view,
+        child: FloatingActionButton(
+          elevation: 0,
+          child: const Icon(CupertinoIcons.add),
+          onPressed: showAddActionSheet,
+        ),
       ),
     );
   }
@@ -131,5 +136,16 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   void addImportFromFiles() {
     print('import from Files');
     Get.back();
+  }
+
+  void deleteFile(FileSystemItem file) {
+    if (file.type == FileSystemEntityType.directory) {
+      final Directory folder = Directory(file.path);
+      folder.deleteSync(recursive: true);
+    }
+    if (file.type == FileSystemEntityType.file) {
+      final File item = File(file.path);
+      item.delete();
+    }
   }
 }

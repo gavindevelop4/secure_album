@@ -4,14 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:secure_album/constants.dart';
+import 'package:secure_album/enums.dart';
 import 'package:secure_album/mixins/album_view_mixin.dart';
 import 'package:secure_album/models/FileSystemItem.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AlbumGrid extends StatefulWidget {
-  const AlbumGrid({Key? key, required this.file}) : super(key: key);
+  const AlbumGrid(
+      {Key? key,
+      required this.file,
+      required this.getListCallback,
+      required this.parentMode})
+      : super(key: key);
 
   final FileSystemItem file;
+  final Function getListCallback;
+  final AlbumMode parentMode;
 
   @override
   State<AlbumGrid> createState() => _AlbumGridState();
@@ -40,31 +48,55 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-                height: (Get.width - defaultPadding * 7) / 2,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(defaultBorderRadius),
-                ),
-                child: Builder(builder: (context) {
-                  if (widget.file.type == FileSystemEntityType.directory) {
-                    return Container(
-                      color: Colors.grey[300],
-                      child: const Center(
-                        child: Icon(
-                          CupertinoIcons.folder_fill,
-                          size: 60,
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: (Get.width - defaultPadding * 7) / 2,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(defaultBorderRadius),
+                  ),
+                  child: Builder(
+                    builder: (context) {
+                      if (widget.file.type == FileSystemEntityType.directory) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Center(
+                            child: Icon(
+                              CupertinoIcons.folder_fill,
+                              size: 60,
+                            ),
+                          ),
+                        );
+                      }
+                      return const Image(
+                        image: AssetImage(
+                          'assets/testImages/test-image-1.jpeg',
                         ),
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
+                if (widget.parentMode == AlbumMode.edit)
+                  Positioned(
+                    top: -7.5,
+                    right: -7.5,
+                    child: GestureDetector(
+                      onTap: () {
+                        deleteFile(widget.file);
+                        widget.getListCallback();
+                      },
+                      child: const Icon(
+                        CupertinoIcons.minus_circle_fill,
+                        color: Colors.red,
+                        size: 30,
                       ),
-                    );
-                  }
-                  return const Image(
-                    image: AssetImage(
-                      'assets/testImages/test-image-1.jpeg',
                     ),
-                    fit: BoxFit.cover,
-                  );
-                })),
+                  ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding / 4),
               child: Column(

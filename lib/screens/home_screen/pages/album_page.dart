@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:secure_album/components/album_grid.dart';
 import 'package:secure_album/constants.dart';
 import 'package:secure_album/enums.dart';
 import 'package:secure_album/mixins/album_view_mixin.dart';
-import 'dart:io';
-import 'package:secure_album/models/FileSystemItem.dart';
 
 class AlbumPage extends StatefulWidget {
   AlbumPage({Key? key}) : super(key: key);
@@ -37,6 +33,26 @@ class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
               backgroundColor: Colors.white,
               largeTitle: Text('AlbumTitle'.tr),
               stretch: true,
+              middle: const Text(''),
+              trailing: mode == AlbumMode.view
+                  ? CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          mode = AlbumMode.edit;
+                        });
+                      },
+                      child: Text('Edit'.tr),
+                      padding: const EdgeInsets.all(0.0),
+                    )
+                  : CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          mode = AlbumMode.view;
+                        });
+                      },
+                      child: Text('Cancel'.tr),
+                      padding: const EdgeInsets.all(0.0),
+                    ),
             ),
           ];
         },
@@ -63,7 +79,11 @@ class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
                     ),
                     delegate: SliverChildListDelegate(
                       list.map((file) {
-                        return AlbumGrid(file: file);
+                        return AlbumGrid(
+                          file: file,
+                          getListCallback: getFileList,
+                          parentMode: mode,
+                        );
                       }).toList(),
                     ),
                   ),
