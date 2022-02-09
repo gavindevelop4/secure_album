@@ -18,6 +18,9 @@ Map<String, String> zhTW = {
   'DeleteAlbum': '刪除相簿',
   'ConfirmToDeleteAlbum': '確認刪除相簿',
 
+  // Gallery Screen
+  'ChoosePhoto': '選擇相片',
+
   // AlbumAddActionType
   AlbumAddActionType.newAlbum.toString(): '新增相簿',
   AlbumAddActionType.importFromPhotos.toString(): '從相片庫導入',

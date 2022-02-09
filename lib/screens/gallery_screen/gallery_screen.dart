@@ -111,7 +111,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
       },
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text('Choose'.tr),
+          middle: Text('ChoosePhoto'.tr),
         ),
         child: FutureBuilder<List<Uint8List?>>(
           future: getByte(photoList),

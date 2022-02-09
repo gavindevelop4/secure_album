@@ -18,6 +18,9 @@ Map<String, String> enUS = {
   'DeleteAlbum': 'Delete Album',
   'ConfirmToDeleteAlbum': 'Confirm to delete album',
 
+  // Gallery Screen
+  'ChoosePhoto': 'Choose Photo',
+
   // AlbumAddActionType
   AlbumAddActionType.newAlbum.toString(): 'New Album',
   AlbumAddActionType.importFromPhotos.toString(): 'Import from Photos',
