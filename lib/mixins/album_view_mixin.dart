@@ -74,7 +74,15 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   }
 
   void sortList() {
-    list.sort((a, b) => a.title.compareTo(b.title));
+    list.sort((a, b) {
+      const Map<FileSystemEntityType, int> mapTypeValue = {
+        FileSystemEntityType.file: 0,
+        FileSystemEntityType.directory: 1,
+      };
+      int cmp = mapTypeValue[b.type]!.compareTo(mapTypeValue[a.type]!);
+      if (cmp != 0) return cmp;
+      return a.title.compareTo(b.title);
+    });
     setState(() {});
   }
 
