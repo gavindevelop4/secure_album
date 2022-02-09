@@ -154,6 +154,7 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
       final result = await showCupertinoModalBottomSheet(
         context: context,
         builder: (context) => GalleryScreen(),
+        duration: const Duration(milliseconds: 300),
       ) as Map;
       if (result['result'] == DialogReturnType.confirm) {
         final File imageFile = result['file'];
