@@ -82,10 +82,13 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                     },
                   ),
                 ),
-                if (widget.parentMode == AlbumMode.edit)
-                  Positioned(
-                    top: -7.5,
-                    right: -7.5,
+                // if (widget.parentMode == AlbumMode.edit)
+                Positioned(
+                  top: -7.5,
+                  right: -7.5,
+                  child: AnimatedOpacity(
+                    opacity: widget.parentMode == AlbumMode.edit ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 200),
                     child: GestureDetector(
                       onTap: () async {
                         await deleteFile(widget.file);
@@ -98,6 +101,7 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                       ),
                     ),
                   ),
+                ),
               ],
             ),
             Padding(

@@ -20,8 +20,9 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
       padding: EdgeInsets.only(
         bottom: AppBar().preferredSize.height,
       ),
-      child: Visibility(
-        visible: mode == AlbumMode.view,
+      child: AnimatedOpacity(
+        opacity: mode == AlbumMode.view ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 200),
         child: FloatingActionButton(
           elevation: 0,
           child: const Icon(CupertinoIcons.add),
