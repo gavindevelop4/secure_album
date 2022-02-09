@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:secure_album/screens/pages/album_page.dart';
-import 'package:secure_album/screens/pages/setting_page.dart';
+import 'package:secure_album/screens/home_screen/pages/album_page.dart';
+import 'package:secure_album/screens/home_screen/pages/setting_page.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);

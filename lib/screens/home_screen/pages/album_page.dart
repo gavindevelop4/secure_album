@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:secure_album/components/album_grid.dart';
 import 'package:secure_album/constants.dart';
 import 'package:secure_album/enums.dart';
-import 'package:secure_album/mixins/add_action_sheet_mixin.dart';
+import 'package:secure_album/mixins/album_view_mixin.dart';
 import 'dart:io';
 import 'package:secure_album/models/FileSystemItem.dart';
 
@@ -17,7 +17,7 @@ class AlbumPage extends StatefulWidget {
   State<AlbumPage> createState() => _AlbumPageState();
 }
 
-class _AlbumPageState extends State<AlbumPage> with AddActionSheetMixin {
+class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
   @override
   void initState() {
     super.initState();
@@ -27,16 +27,7 @@ class _AlbumPageState extends State<AlbumPage> with AddActionSheetMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: AppBar().preferredSize.height,
-        ),
-        child: FloatingActionButton(
-          elevation: 0,
-          child: const Icon(CupertinoIcons.add),
-          onPressed: showAddActionSheet,
-        ),
-      ),
+      floatingActionButton: getFloatingActionButton(),
       body: NestedScrollView(
         // floatHeaderSlivers: true,
         controller: PrimaryScrollController.of(context),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:secure_album/constants.dart';
+import 'package:secure_album/mixins/album_view_mixin.dart';
 import 'package:secure_album/models/FileSystemItem.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,7 +17,7 @@ class AlbumGrid extends StatefulWidget {
   State<AlbumGrid> createState() => _AlbumGridState();
 }
 
-class _AlbumGridState extends State<AlbumGrid> {
+class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
   int totals = 0;
 
   void getFileData() async {
@@ -33,6 +34,14 @@ class _AlbumGridState extends State<AlbumGrid> {
     print('long press ${widget.file.title}');
   }
 
+  void handleTapGrid() async {
+    if (widget.file.type == FileSystemEntityType.directory) {
+      final _path = await localPath;
+      final String trimPath = widget.file.path.split(_path)[1];
+      Get.toNamed('/albumDetail?filePath=$trimPath', arguments: widget.file);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +51,7 @@ class _AlbumGridState extends State<AlbumGrid> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: handleTapGrid,
       onLongPress: handleLongPressGrid,
       child: SizedBox(
         width: (Get.width - defaultPadding * 6) / 2,

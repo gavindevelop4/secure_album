@@ -11,6 +11,7 @@ Map<String, String> zhTW = {
   'SettingsTitle': '設定',
   'NewAlbumTitleText': '新增相簿名稱',
   'NewAlbumTitleDescription': '輸入新相簿的名字',
+  'AlbumNameRepeatWarning': '相簿名稱不能重複',
 
   // AlbumAddActionType
   AlbumAddActionType.newAlbum.toString(): '新增相簿',

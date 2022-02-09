@@ -11,6 +11,7 @@ Map<String, String> enUS = {
   'SettingsTitle': 'Settings',
   'NewAlbumTitleText': 'New Album Title',
   'NewAlbumTitleDescription': 'Enter a name for this album',
+  'AlbumNameRepeatWarning': 'Name of Albums cannot be repeated',
 
   // AlbumAddActionType
   AlbumAddActionType.newAlbum.toString(): 'New Album',

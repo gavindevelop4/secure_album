@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:secure_album/components/new_album_dialog.dart';
 import 'package:secure_album/constants.dart';
 import 'package:secure_album/enums.dart';
 import 'package:get/get.dart';
@@ -7,16 +9,35 @@ import 'dart:io';
 
 import 'package:secure_album/models/FileSystemItem.dart';
 
-mixin AddActionSheetMixin<T extends StatefulWidget> on State<T> {
-  TextEditingController newAlbumTitleController = TextEditingController();
+mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   List<FileSystemItem> list = [];
   late String path;
 
-  void setPath(newPath) async {
-    final _path = await localPath;
-    setState(() {
-      path = '$_path/$newPath';
-    });
+  Widget getFloatingActionButton() {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: AppBar().preferredSize.height,
+      ),
+      child: FloatingActionButton(
+        elevation: 0,
+        child: const Icon(CupertinoIcons.add),
+        onPressed: showAddActionSheet,
+      ),
+    );
+  }
+
+  void setPath(String newPath) async {
+    if (newPath == '') {
+      final _path = await localPath;
+      setState(() {
+        path = '$_path/$newPath';
+      });
+    } else {
+      setState(() {
+        path = newPath;
+      });
+    }
+
     getFileList();
   }
 
@@ -34,7 +55,14 @@ mixin AddActionSheetMixin<T extends StatefulWidget> on State<T> {
     }
     setState(() {
       list = fileList;
+      sortList();
     });
+  }
+
+  void sortList() {
+    list.sort((a, b) => a.title.compareTo(b.title));
+    print(list);
+    setState(() {});
   }
 
   Future<String> get localPath async {
@@ -88,49 +116,9 @@ mixin AddActionSheetMixin<T extends StatefulWidget> on State<T> {
     showCupertinoDialog(
       context: Get.context!,
       builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text('NewAlbumTitleText'.tr),
-          content: Column(
-            children: [
-              Text('NewAlbumTitleDescription'.tr),
-              const SizedBox(
-                height: defaultPadding * 2,
-              ),
-              CupertinoTextField(
-                controller: newAlbumTitleController,
-                placeholder: 'TitleText'.tr,
-              ),
-            ],
-          ),
-          actions: [
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              child: Text('Cancel'.tr),
-              onPressed: () {
-                Get.back();
-                newAlbumTitleController.clear();
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text('Confirm'.tr),
-              onPressed: () async {
-                final String folderName = newAlbumTitleController.text;
-                if (folderName != '') {
-                  final Directory _appDocDirFolder =
-                      Directory('$path/$folderName/');
-                  if (await _appDocDirFolder.exists()) {
-                    print('directory already exist');
-                    return;
-                  }
-                  final Directory _appDocDirNewFolder =
-                      await _appDocDirFolder.create(recursive: true);
-                  getFileList();
-                  Get.back();
-                  newAlbumTitleController.clear();
-                }
-              },
-            ),
-          ],
+        return NewAlbumDialog(
+          getListCallback: getFileList,
+          path: path,
         );
       },
     );
