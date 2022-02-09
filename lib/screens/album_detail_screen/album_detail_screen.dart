@@ -5,7 +5,7 @@ import 'package:secure_album/components/album_grid.dart';
 import 'package:secure_album/constants.dart';
 import 'package:secure_album/enums.dart';
 import 'package:secure_album/mixins/album_view_mixin.dart';
-import 'package:secure_album/models/FileSystemItem.dart';
+import 'package:secure_album/models/file_system_item.dart';
 
 class AlbumDetailScreen extends StatefulWidget {
   AlbumDetailScreen({Key? key}) : super(key: key);

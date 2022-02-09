@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:secure_album/models/FileSystemItem.dart';
+import 'package:secure_album/models/file_system_item.dart';
 import 'package:secure_album/screens/gallery_screen/gallery_screen.dart';
 
 mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {

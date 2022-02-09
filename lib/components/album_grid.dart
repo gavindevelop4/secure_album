@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:secure_album/constants.dart';
 import 'package:secure_album/enums.dart';
 import 'package:secure_album/mixins/album_view_mixin.dart';
-import 'package:secure_album/models/FileSystemItem.dart';
+import 'package:secure_album/models/file_system_item.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AlbumGrid extends StatefulWidget {
