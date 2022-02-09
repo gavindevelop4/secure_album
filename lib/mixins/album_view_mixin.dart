@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:secure_album/components/new_album_dialog.dart';
-import 'package:secure_album/constants.dart';
+import 'package:secure_album/controllers/role_controller.dart';
 import 'package:secure_album/enums.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,10 +32,15 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   }
 
   void setPath(String newPath) async {
+    final RoleController roleController = Get.put(RoleController());
+    if (!roleController.roleFolderInitialized.value) {
+      await roleController.initAllRoleFolder();
+    }
+    final String roleString = roleController.role.value.toShortString();
     if (newPath == '') {
       final _path = await localPath;
       setState(() {
-        path = '$_path/$newPath';
+        path = '$_path/$roleString/';
       });
     } else {
       setState(() {
@@ -138,7 +143,7 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
     Get.back();
   }
 
-  void deleteFile(FileSystemItem file) async {
+  Future<void> deleteFile(FileSystemItem file) async {
     final result = await showCupertinoDialog(
       context: Get.context!,
       builder: (context) {
@@ -168,7 +173,7 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
     if (result == 'confirm') {
       if (file.type == FileSystemEntityType.directory) {
         final Directory folder = Directory(file.path);
-        folder.deleteSync(recursive: true);
+        await folder.delete(recursive: true);
       }
       if (file.type == FileSystemEntityType.file) {
         final File item = File(file.path);

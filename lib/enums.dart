@@ -4,6 +4,12 @@ enum Role {
   fake,
 }
 
+extension ParseToString on Role {
+  String toShortString() {
+    return this.toString().split('.').last;
+  }
+}
+
 enum AlbumMode {
   view,
   edit,

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:secure_album/controllers/role_controller.dart';
+import 'package:secure_album/enums.dart';
 import 'package:secure_album/screens/home_screen/pages/album_page.dart';
 import 'package:secure_album/screens/home_screen/pages/setting_page.dart';
 
@@ -23,6 +27,17 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _pageIndex = index;
     });
+  }
+
+  void setRole() {
+    final RoleController roleController = Get.put(RoleController());
+    roleController.setRole(Role.admin);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setRole();
   }
 
   @override

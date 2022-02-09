@@ -87,8 +87,8 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                     top: -7.5,
                     right: -7.5,
                     child: GestureDetector(
-                      onTap: () {
-                        deleteFile(widget.file);
+                      onTap: () async {
+                        await deleteFile(widget.file);
                         widget.getListCallback();
                       },
                       child: const Icon(
