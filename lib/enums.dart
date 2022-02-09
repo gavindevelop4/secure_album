@@ -15,6 +15,11 @@ enum AlbumMode {
   edit,
 }
 
+enum DialogReturnType {
+  confirm,
+  cancel,
+}
+
 enum AlbumAddActionType {
   newAlbum,
   importFromPhotos,

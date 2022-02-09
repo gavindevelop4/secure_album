@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:secure_album/components/new_album_dialog.dart';
 import 'package:secure_album/controllers/role_controller.dart';
 import 'package:secure_album/enums.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-
+import 'package:photo_manager/photo_manager.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:secure_album/models/FileSystemItem.dart';
+import 'package:secure_album/screens/gallery_screen/gallery_screen.dart';
 
 mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
   List<FileSystemItem> list = [];
@@ -134,9 +137,33 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  void addImportFromPhotos() {
-    print('import from photos');
+  void addImportFromPhotos() async {
+    // print('import from photos');
     Get.back();
+    var result = await PhotoManager.requestPermissionExtend();
+    if (result == PermissionState.authorized ||
+        result == PermissionState.limited) {
+      final result = await showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) => GalleryScreen(),
+      ) as Map;
+      if (result['result'] == DialogReturnType.confirm) {
+        final File imageFile = result['file'];
+        final String fileName = imageFile.path.split('/').last;
+        final File writingFile = File('$path/$fileName');
+        await writingFile.writeAsBytes(await imageFile.readAsBytes());
+        getFileList();
+      }
+    } else {
+      // confirmBox(context, '请先开启相簿权限').then(
+      //   (value) {
+      //     if (value == ConfirmType.confirm) {
+      //       PhotoManager.openSetting();
+      //     }
+      //     return '';
+      //   },
+      // );
+    }
   }
 
   void addImportFromFiles() {

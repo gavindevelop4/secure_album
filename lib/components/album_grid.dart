@@ -73,10 +73,8 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                           ),
                         );
                       }
-                      return const Image(
-                        image: AssetImage(
-                          'assets/testImages/test-image-1.jpeg',
-                        ),
+                      return Image.file(
+                        File(widget.file.path),
                         fit: BoxFit.cover,
                       );
                     },
