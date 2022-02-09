@@ -7,6 +7,7 @@ Map<String, String> zhTW = {
   'TitleText': '名稱',
   'Delete': '刪除',
   'Edit': '編輯',
+  'QuestionMark': '？',
 
   // Album Page
   'AlbumTitle': '相薄',
@@ -14,6 +15,8 @@ Map<String, String> zhTW = {
   'NewAlbumTitleText': '新增相簿名稱',
   'NewAlbumTitleDescription': '輸入新相簿的名字',
   'AlbumNameRepeatWarning': '相簿名稱不能重複',
+  'DeleteAlbum': '刪除相簿',
+  'ConfirmToDeleteAlbum': '確認刪除相簿',
 
   // AlbumAddActionType
   AlbumAddActionType.newAlbum.toString(): '新增相簿',

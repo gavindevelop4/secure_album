@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:secure_album/components/album_grid.dart';
 import 'package:secure_album/constants.dart';
+import 'package:secure_album/enums.dart';
 import 'package:secure_album/mixins/album_view_mixin.dart';
 import 'package:secure_album/models/FileSystemItem.dart';
 
@@ -63,6 +64,11 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen>
                       file: file,
                       getListCallback: getFileList,
                       parentMode: mode,
+                      setModeCallback: () {
+                        setState(() {
+                          mode = AlbumMode.edit;
+                        });
+                      },
                     );
                   }).toList(),
                 ),

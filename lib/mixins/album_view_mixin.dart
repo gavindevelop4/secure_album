@@ -143,8 +143,10 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
       context: Get.context!,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text('Delete Album?'),
-          content: Text('Confirm to delete?'),
+          title: Text('DeleteAlbum'.tr),
+          content: Text(
+            'ConfirmToDeleteAlbum'.tr + ' "${file.title}" ' + 'QuestionMark'.tr,
+          ),
           actions: [
             CupertinoDialogAction(
               isDestructiveAction: true,

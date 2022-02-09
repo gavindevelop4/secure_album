@@ -88,6 +88,11 @@ class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
                           file: file,
                           getListCallback: getFileList,
                           parentMode: mode,
+                          setModeCallback: () {
+                            setState(() {
+                              mode = AlbumMode.edit;
+                            });
+                          },
                         );
                       }).toList(),
                     ),

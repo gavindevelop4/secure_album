@@ -10,15 +10,17 @@ import 'package:secure_album/models/FileSystemItem.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AlbumGrid extends StatefulWidget {
-  const AlbumGrid(
-      {Key? key,
-      required this.file,
-      required this.getListCallback,
-      required this.parentMode})
-      : super(key: key);
+  const AlbumGrid({
+    Key? key,
+    required this.file,
+    required this.getListCallback,
+    required this.parentMode,
+    required this.setModeCallback,
+  }) : super(key: key);
 
   final FileSystemItem file;
   final Function getListCallback;
+  final Function setModeCallback;
   final AlbumMode parentMode;
 
   @override
@@ -28,6 +30,7 @@ class AlbumGrid extends StatefulWidget {
 class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
   void handleLongPressGrid() {
     print('long press ${widget.file.title}');
+    widget.setModeCallback();
   }
 
   void handleTapGrid() async {
