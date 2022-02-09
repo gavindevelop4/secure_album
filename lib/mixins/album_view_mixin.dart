@@ -138,14 +138,40 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
     Get.back();
   }
 
-  void deleteFile(FileSystemItem file) {
-    if (file.type == FileSystemEntityType.directory) {
-      final Directory folder = Directory(file.path);
-      folder.deleteSync(recursive: true);
-    }
-    if (file.type == FileSystemEntityType.file) {
-      final File item = File(file.path);
-      item.delete();
+  void deleteFile(FileSystemItem file) async {
+    final result = await showCupertinoDialog(
+      context: Get.context!,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text('Delete Album?'),
+          content: Text('Confirm to delete?'),
+          actions: [
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              child: Text('Cancel'.tr),
+              onPressed: () {
+                Get.back(result: 'cancel');
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text('Confirm'.tr),
+              onPressed: () {
+                Get.back(result: 'confirm');
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (result == 'confirm') {
+      if (file.type == FileSystemEntityType.directory) {
+        final Directory folder = Directory(file.path);
+        folder.deleteSync(recursive: true);
+      }
+      if (file.type == FileSystemEntityType.file) {
+        final File item = File(file.path);
+        await item.delete();
+      }
     }
   }
 }

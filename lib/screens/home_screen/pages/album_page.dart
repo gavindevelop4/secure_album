@@ -60,6 +60,11 @@ class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
           return CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
             slivers: [
+              CupertinoSliverRefreshControl(
+                onRefresh: () async {
+                  getFileList();
+                },
+              ),
               SliverSafeArea(
                 top: false,
                 sliver: SliverPadding(

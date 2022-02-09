@@ -36,30 +36,35 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen>
           slivers: [
             SliverSafeArea(
               bottom: false,
-              sliver: SliverPadding(
-                padding: const EdgeInsets.only(
-                  top: defaultPadding * 2,
-                  left: defaultPadding * 2,
-                  right: defaultPadding * 2,
+              sliver: CupertinoSliverRefreshControl(
+                onRefresh: () async {
+                  getFileList();
+                },
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                top: defaultPadding * 2,
+                left: defaultPadding * 2,
+                right: defaultPadding * 2,
+              ),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: defaultPadding,
+                  crossAxisSpacing: defaultPadding * 2,
+                  childAspectRatio: (Get.width - defaultPadding * 6) /
+                      2 /
+                      ((Get.width - defaultPadding * 6) / 2 + 40),
                 ),
-                sliver: SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: defaultPadding,
-                    crossAxisSpacing: defaultPadding * 2,
-                    childAspectRatio: (Get.width - defaultPadding * 6) /
-                        2 /
-                        ((Get.width - defaultPadding * 6) / 2 + 40),
-                  ),
-                  delegate: SliverChildListDelegate(
-                    list.map((file) {
-                      return AlbumGrid(
-                        file: file,
-                        getListCallback: getFileList,
-                        parentMode: mode,
-                      );
-                    }).toList(),
-                  ),
+                delegate: SliverChildListDelegate(
+                  list.map((file) {
+                    return AlbumGrid(
+                      file: file,
+                      getListCallback: getFileList,
+                      parentMode: mode,
+                    );
+                  }).toList(),
                 ),
               ),
             ),
