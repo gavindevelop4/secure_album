@@ -61,7 +61,6 @@ mixin AlbumViewMixin<T extends StatefulWidget> on State<T> {
 
   void sortList() {
     list.sort((a, b) => a.title.compareTo(b.title));
-    print(list);
     setState(() {});
   }
 

@@ -13,6 +13,15 @@ class FileSystemItem extends Equatable {
     this.path = '',
   });
 
+  int? get total {
+    if (type == FileSystemEntityType.directory) {
+      final Directory folder = Directory('$path/');
+      List<FileSystemEntity> fileSystemEntityList = folder.listSync();
+      return fileSystemEntityList.length;
+    }
+    return null;
+  }
+
   @override
   List<Object> get props => [
         title,

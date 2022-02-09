@@ -18,18 +18,6 @@ class AlbumGrid extends StatefulWidget {
 }
 
 class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
-  int totals = 0;
-
-  void getFileData() async {
-    if (widget.file.type == FileSystemEntityType.directory) {
-      final Directory folder = Directory('${widget.file.path}/');
-      List<FileSystemEntity> fileSystemEntityList = folder.listSync();
-      setState(() {
-        totals = fileSystemEntityList.length;
-      });
-    }
-  }
-
   void handleLongPressGrid() {
     print('long press ${widget.file.title}');
   }
@@ -40,12 +28,6 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
       final String trimPath = widget.file.path.split(_path)[1];
       Get.toNamed('/albumDetail?filePath=$trimPath', arguments: widget.file);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getFileData();
   }
 
   @override
@@ -94,7 +76,7 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                   ),
                   if (widget.file.type == FileSystemEntityType.directory)
                     Text(
-                      totals.toString(),
+                      widget.file.total.toString(),
                       style: context.textTheme.bodyText2,
                     ),
                 ],
