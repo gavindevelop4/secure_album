@@ -69,6 +69,9 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen>
                           mode = AlbumMode.edit;
                         });
                       },
+                      refreshCallback: () {
+                        getFileList();
+                      },
                     );
                   }).toList(),
                 ),

@@ -26,7 +26,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   List<AssetEntity> photoList = [];
 
   void getList() async {
-    List<AssetPathEntity> list = await PhotoManager.getAssetPathList();
+    List<AssetPathEntity> list = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
     AssetPathEntity data = list[0];
     List<AssetEntity> imageList = await data.assetList;
     setState(() {

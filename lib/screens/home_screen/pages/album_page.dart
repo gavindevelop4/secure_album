@@ -93,6 +93,9 @@ class _AlbumPageState extends State<AlbumPage> with AlbumViewMixin {
                               mode = AlbumMode.edit;
                             });
                           },
+                          refreshCallback: () {
+                            getFileList();
+                          },
                         );
                       }).toList(),
                     ),

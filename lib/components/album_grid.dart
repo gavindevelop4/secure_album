@@ -16,12 +16,14 @@ class AlbumGrid extends StatefulWidget {
     required this.getListCallback,
     required this.parentMode,
     required this.setModeCallback,
+    required this.refreshCallback,
   }) : super(key: key);
 
   final FileSystemItem file;
   final Function getListCallback;
   final Function setModeCallback;
   final AlbumMode parentMode;
+  final Function refreshCallback;
 
   @override
   State<AlbumGrid> createState() => _AlbumGridState();
@@ -37,7 +39,14 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
     if (widget.file.type == FileSystemEntityType.directory) {
       final _path = await localPath;
       final String trimPath = widget.file.path.split(_path)[1];
-      Get.toNamed('/albumDetail?filePath=$trimPath', arguments: widget.file);
+      Get.toNamed('/albumDetail?filePath=$trimPath', arguments: widget.file)
+          ?.then((value) {
+        widget.refreshCallback();
+      });
+    } else {
+      Get.toNamed('/image_preview', arguments: widget.file)?.then((value) {
+        widget.refreshCallback();
+      });
     }
   }
 
@@ -56,6 +65,7 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
               children: [
                 Container(
                   height: (Get.width - defaultPadding * 7) / 2,
+                  width: (Get.width - defaultPadding * 7) / 2,
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(defaultBorderRadius),
@@ -108,7 +118,13 @@ class _AlbumGridState extends State<AlbumGrid> with AlbumViewMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.file.title,
+                    widget.file.title.length < 20
+                        ? widget.file.title
+                        : widget.file.title.replaceRange(
+                            10,
+                            widget.file.title.length - 10,
+                            '...',
+                          ),
                     style: context.textTheme.bodyText1,
                   ),
                   if (widget.file.type == FileSystemEntityType.directory)
