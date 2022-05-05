@@ -122,12 +122,18 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen>
                     itemBuilder: (context, index) {
                       final item = fileList[index];
                       return ImagePage(
-                          file: item,
-                          onTap: () {
-                            setState(() {
-                              _appbarVisible = !_appbarVisible;
-                            });
+                        file: item,
+                        onTap: () {
+                          setState(() {
+                            _appbarVisible = !_appbarVisible;
                           });
+                        },
+                        onScale: () {
+                          setState(() {
+                            _appbarVisible = false;
+                          });
+                        },
+                      );
                     },
                   ),
                 ),
@@ -136,6 +142,8 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen>
           ),
           Positioned(
             bottom: 0,
+            left: 0,
+            right: 0,
             child: SlidingBottomBar(
               visible: _appbarVisible,
               controller: _bottomBarAnimationController,
@@ -168,10 +176,12 @@ class ImagePage extends StatelessWidget {
     Key? key,
     required this.file,
     this.onTap,
+    this.onScale,
   }) : super(key: key);
 
   final FileSystemItem file;
   final Function? onTap;
+  final Function? onScale;
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +201,12 @@ class ImagePage extends StatelessWidget {
         child: Center(
           child: PhotoView(
             imageProvider: AssetImage(file.path),
+            scaleStateChangedCallback:
+                (PhotoViewScaleState photoViewScaleState) {
+              if (onScale != null) {
+                onScale!();
+              }
+            },
           ),
         ),
       ),
