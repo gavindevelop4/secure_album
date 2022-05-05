@@ -22,6 +22,15 @@ class FileSystemItem extends Equatable {
     return null;
   }
 
+  String? get directoryPath {
+    if (type == FileSystemEntityType.file) {
+      final List<String> filePathSplit = path.split('/');
+      filePathSplit.removeRange(filePathSplit.length - 1, filePathSplit.length);
+      return filePathSplit.join('/');
+    }
+    return null;
+  }
+
   @override
   List<Object> get props => [
         title,
